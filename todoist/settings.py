@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os, dotenv
 import dj_database_url
 from pathlib import Path
+from datetime import timedelta
 dotenv.load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -43,6 +44,8 @@ INSTALLED_APPS = [
 
     'toodo',
     'rest_framework',
+    'djoser',
+    'rest_framework_simplejwt'
 ]
 
 MIDDLEWARE = [
@@ -85,11 +88,11 @@ DATABASES = {
     }
 }
 
-DATABASES["default"] = dj_database_url.parse(DATABASE_URL)
+# DATABASES["default"] = dj_database_url.parse(DATABASE_URL)
 
-DATABASES["default"]["OPTIONS"] = {
-    "options": "-c search_path=todoist"
-}
+# DATABASES["default"]["OPTIONS"] = {
+#     "options": "-c search_path=todoist"
+# }
 
 
 # Password validation
@@ -132,3 +135,16 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=360),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1060),
+}
